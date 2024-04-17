@@ -26,18 +26,25 @@ def print_game_board():
     print("\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u253c\u2500\u2500\u2500")
     print(f" {game_board[2][0]} \u2502 {game_board[2][1]} \u2502 {game_board[2][2]}")
 
+def get_marker():
+    player_marker = input("Please enter which marker you want to use (X or O): ")
+    player_marker = player_marker.upper()
+    if player_marker not in ["X", "O"]:
+        print("Marker Error: Marker should be either X or O")
+        return get_marker()
+    return player_marker
+
 def players():
     player1_name = input("Please enter name for player #1: ")
     player1_name = player1_name.title()
-    player1_marker = input("Please enter which marker you want to use (X or O): ")
-    player1_marker = player1_marker.upper()
-    player2_name = input("Please enter name for player #2: ")
-    player2_name = player2_name.title()
-    # TODO: error handling for input of X or O
+    player1_marker = get_marker()
     if player1_marker == "X":
         player2_marker = "O"
     else:
         player2_marker = "X"
+    player2_name = input("Please enter name for player #2: ")
+    player2_name = player2_name.title()
+
     return (player1_name, player1_marker, player2_name, player2_marker)
     # print(player1_name + ": " + player1_marker) # test input
     # print(player2_name + ": " + player2_marker) # test input
@@ -58,6 +65,7 @@ def input_marker(count, player1_name, player1_marker, player2_name, player2_mark
                 game_board[x_position][y_position] = player2_marker
         else:
             print("Position Error: Position already filled")
+            # TODO: check if board is completely full
             input_marker(count, player1_name, player1_marker, player2_name, player2_marker)
         print_game_board()
     else:
