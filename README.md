@@ -71,6 +71,9 @@ Unicode box drawing (line-drawing) characters used to help draw layout for the t
 
 ### What I learned
 
+- There are unicode codes for drawing lines that are useful for creating grid drawings.
+- How to return multiple variables.
+
 TODO: TBA
 
 ### Continued Development
