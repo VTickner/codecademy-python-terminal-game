@@ -44,8 +44,8 @@ def print_game_board():
     print("\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u253c\u2500\u2500\u2500")
     print(f" {game_board[2][0]} \u2502 {game_board[2][1]} \u2502 {game_board[2][2]}")
 
-def input_marker(count, player1, player2):
-    if count % 2 != 0:
+def input_marker(counter, player1, player2):
+    if counter % 2 != 0:
         input_message = f"Which empty space would you like to place your {player1.marker}, {player1.name}: "
     else:
         input_message = f"Which empty space would you like to place your {player2.marker}, {player2.name}: "
@@ -54,31 +54,31 @@ def input_marker(count, player1, player2):
         x_position = board_position[player_turn][0]
         y_position = board_position[player_turn][1]
         if game_board[x_position][y_position] == " ":
-            if count % 2 != 0:
+            if counter % 2 != 0:
                 game_board[x_position][y_position] = player1.marker
             else:
                 game_board[x_position][y_position] = player2.marker
         else:
             print("Position Error: Position already filled")
-            # TODO: check if board is completely full
-            input_marker(count, player1, player2)
-        print_game_board()
+            input_marker(counter, player1, player2)
     else:
         print("Position Error: Number needs to be between 1 to 9.")    
 
-def play_game():
+def play_game(won_game, board_full):
     player1 = Player(1)
     player2 = Player(2)
     if player1.marker == "X":
         player2.marker = "O"
     else:
         player2.marker = "X"
-    count = 1
-    # TODO: while won_game = False or each space in game_board != " " continue playing game
-    while won_game == False and board_full == False:
-        input_marker(count, player1, player2)
-        count += 1
+    counter = 1
+    # TODO: while won_game = False continue playing game
+    while not won_game and not board_full:
+        input_marker(counter, player1, player2)
+        print_game_board()
+        counter += 1
+        if counter > 9:
+            board_full = True
 
 game_rules()
-play_game()
-# print_game_board()
+play_game(won_game, board_full)
