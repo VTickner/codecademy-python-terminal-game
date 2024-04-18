@@ -1,8 +1,6 @@
 # PORTFOLIO PROJECT: TIC-TAC-TOE GAME
 
-# Notes about game board:
-# - game_board is effectively written as [row0, row1, row2]
-# - diagonals are row0[0], row1[1], row2[2] and row0[2], row1[1], row2[0]
+# Game_board is effectively written as [row0, row1, row2]
 game_board = [[" ", " ", " "], [" ", " ", " "],[" ", " ", " "]]
 board_position = {1: [0, 0], 2: [0, 1], 3: [0, 2], 4: [1, 0], 5: [1, 1], 6: [1, 2], 7: [2, 0], 8: [2, 1], 9: [2, 2]}
 
@@ -35,12 +33,17 @@ def game_rules():
     print("\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u253c\u2500\u2500\u2500")
     print(f" 7 \u2502 8 \u2502 9\n")
 
-def print_game_board():
-    print(f"\n {game_board[0][0]} \u2502 {game_board[0][1]} \u2502 {game_board[0][2]}")
-    print("\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u253c\u2500\u2500\u2500")
-    print(f" {game_board[1][0]} \u2502 {game_board[1][1]} \u2502 {game_board[1][2]}")
-    print("\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u253c\u2500\u2500\u2500")
-    print(f" {game_board[2][0]} \u2502 {game_board[2][1]} \u2502 {game_board[2][2]}")
+def init_game():
+    won_game = False
+    board_full = False
+    counter = 1
+    player1 = Player(1)
+    player2 = Player(2)
+    if player1.marker == "X":
+        player2.marker = "O"
+    else:
+        player2.marker = "X"
+    return won_game, board_full, counter, player1, player2
 
 def input_marker(counter, player1, player2):
     if counter % 2 != 0:
@@ -60,25 +63,33 @@ def input_marker(counter, player1, player2):
             print("Position Error: Position already filled")
             input_marker(counter, player1, player2)
     else:
-        print("Position Error: Number needs to be between 1 to 9.")    
+        print("Position Error: Number needs to be between 1 to 9.")
+        input_marker(counter, player1, player2)
 
-def init_game():
-    won_game = False
-    board_full = False
-    player1 = Player(1)
-    player2 = Player(2)
-    if player1.marker == "X":
-        player2.marker = "O"
-    else:
-        player2.marker = "X"
-    counter = 1
-    return won_game, board_full, counter, player1, player2
+def check_won():
+    # row or column win
+    for i in range(3):
+        if game_board[i][0] == game_board[i][1] == game_board[i][2] or game_board[0][i] == game_board[1][i] == game_board[2][i]:
+            # also return location of match so can change colour of text to show winning line
+            return True
+    # diagonals win
+    if game_board[0][0] == game_board[1][1] == game_board[2][2] or game_board[0][2] == game_board[1][1] == game_board[2][0]:
+        # also return location of match so can change colour of text to show winning line
+        return True
+
+def print_game_board():
+    print(f"\n {game_board[0][0]} \u2502 {game_board[0][1]} \u2502 {game_board[0][2]}")
+    print("\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u253c\u2500\u2500\u2500")
+    print(f" {game_board[1][0]} \u2502 {game_board[1][1]} \u2502 {game_board[1][2]}")
+    print("\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u253c\u2500\u2500\u2500")
+    print(f" {game_board[2][0]} \u2502 {game_board[2][1]} \u2502 {game_board[2][2]}\n")
 
 def play_game():
     won_game, board_full, counter, player1, player2 = init_game()
-    # TODO: while won_game = False continue playing game
     while not won_game and not board_full:
         input_marker(counter, player1, player2)
+        if counter >= 5:
+            won_game = check_won()
         print_game_board()
         counter += 1
         if counter > 9:
