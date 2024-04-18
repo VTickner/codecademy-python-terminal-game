@@ -5,8 +5,6 @@
 # - diagonals are row0[0], row1[1], row2[2] and row0[2], row1[1], row2[0]
 game_board = [[" ", " ", " "], [" ", " ", " "],[" ", " ", " "]]
 board_position = {1: [0, 0], 2: [0, 1], 3: [0, 2], 4: [1, 0], 5: [1, 1], 6: [1, 2], 7: [2, 0], 8: [2, 1], 9: [2, 2]}
-won_game = False
-board_full = False
 
 class Player:
     def __init__(self, player_number):
@@ -64,7 +62,9 @@ def input_marker(counter, player1, player2):
     else:
         print("Position Error: Number needs to be between 1 to 9.")    
 
-def play_game(won_game, board_full):
+def init_game():
+    won_game = False
+    board_full = False
     player1 = Player(1)
     player2 = Player(2)
     if player1.marker == "X":
@@ -72,6 +72,10 @@ def play_game(won_game, board_full):
     else:
         player2.marker = "X"
     counter = 1
+    return won_game, board_full, counter, player1, player2
+
+def play_game():
+    won_game, board_full, counter, player1, player2 = init_game()
     # TODO: while won_game = False continue playing game
     while not won_game and not board_full:
         input_marker(counter, player1, player2)
@@ -81,4 +85,4 @@ def play_game(won_game, board_full):
             board_full = True
 
 game_rules()
-play_game(won_game, board_full)
+play_game()
