@@ -47,9 +47,9 @@ def init_game():
 
 def input_marker(counter, player1, player2):
     if counter % 2 != 0:
-        input_message = f"Which empty space would you like to place your {player1.marker}, {player1.name}: "
+        input_message = f"Which empty space would you like to place your {player1.marker}, {player1.name}? "
     else:
-        input_message = f"Which empty space would you like to place your {player2.marker}, {player2.name}: "
+        input_message = f"Which empty space would you like to place your {player2.marker}, {player2.name}? "
     player_turn = int(input(input_message))
     if player_turn in board_position.keys():
         x_position = board_position[player_turn][0]
@@ -69,13 +69,17 @@ def input_marker(counter, player1, player2):
 def check_won():
     # row or column win
     for i in range(3):
-        if game_board[i][0] == game_board[i][1] == game_board[i][2] or game_board[0][i] == game_board[1][i] == game_board[2][i]:
-            # also return location of match so can change colour of text to show winning line
-            return True
+        if game_board[i][0] == game_board[i][1] == game_board[i][2] != " ":
+            return True, game_board[i][0]
+        elif game_board[0][i] == game_board[1][i] == game_board[2][i] != " ":
+            return True, game_board[0][i]
     # diagonals win
-    if game_board[0][0] == game_board[1][1] == game_board[2][2] or game_board[0][2] == game_board[1][1] == game_board[2][0]:
-        # also return location of match so can change colour of text to show winning line
-        return True
+    if game_board[0][0] == game_board[1][1] == game_board[2][2] != " ":
+        return True, game_board[0][0]
+    elif game_board[0][2] == game_board[1][1] == game_board[2][0]!= " ":
+        return True, game_board[0][2]
+    # no win
+    return False, None
 
 def print_game_board():
     print(f"\n {game_board[0][0]} \u2502 {game_board[0][1]} \u2502 {game_board[0][2]}")
@@ -89,11 +93,18 @@ def play_game():
     while not won_game and not board_full:
         input_marker(counter, player1, player2)
         if counter >= 5:
-            won_game = check_won()
+            won_game, winner = check_won()
         print_game_board()
         counter += 1
         if counter > 9:
             board_full = True
+    if won_game:
+        if winner == player1.marker:
+            print(f"{player1.name} won!")
+        else:
+            print(f"{player2.name} won!")
+    elif board_full:
+        print("It's a draw!")
 
 game_rules()
 play_game()
