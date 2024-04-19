@@ -57,21 +57,24 @@ def input_marker(counter, game_board, player1, player2):
         input_message = f"Which empty space would you like to place your {player1.marker}, {player1.name}? "
     else:
         input_message = f"Which empty space would you like to place your {player2.marker}, {player2.name}? "
-    player_turn = int(input(input_message))
-    if player_turn in board_position.keys():
-        x_position = board_position[player_turn][0]
-        y_position = board_position[player_turn][1]
-        if game_board[x_position][y_position] == " ":
-            if counter % 2 != 0:
-                game_board[x_position][y_position] = player1.marker
+    while True:
+        try:
+            player_turn = int(input(input_message))
+            if player_turn in board_position.keys():
+                x_position = board_position[player_turn][0]
+                y_position = board_position[player_turn][1]
+                if game_board[x_position][y_position] == " ":
+                    if counter % 2 != 0:
+                        game_board[x_position][y_position] = player1.marker
+                    else:
+                        game_board[x_position][y_position] = player2.marker
+                    break
+                else:
+                    print("Position Error: Position already filled")
             else:
-                game_board[x_position][y_position] = player2.marker
-        else:
-            print("Position Error: Position already filled")
-            input_marker(counter, player1, player2)
-    else:
-        print("Position Error: Number needs to be between 1 to 9.")
-        input_marker(counter, player1, player2)
+                print("Position Error: Number needs to be between 1 to 9.")
+        except ValueError:
+            print("Invalid Input Error: Please enter a number between 1 to 9.")
 
 def check_won(game_board):
     # row or column win
