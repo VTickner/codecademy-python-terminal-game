@@ -8,9 +8,10 @@ class Player:
         self.name = self.name.title()
         if player_number == 1:
             self.marker = self.get_marker()
+        self.score = 0
 
     def __repr__(self):
-        pass
+        return f"{self.name} has a total score of {self.score}"
 
     def get_marker(self):
         self.marker = input("Please enter which marker you want to use (X or O): ")
@@ -19,6 +20,9 @@ class Player:
             print("Marker Error: Marker should be either X or O")
             return self.get_marker()
         return self.marker
+    
+    def add_score(self):
+        self.score += 1
 
 def game_rules():
     print("\nWelcome to the Tic-Tac-Toe Game!\n")
@@ -103,11 +107,15 @@ def play_game(player1, player2):
             board_full = True
     if won_game:
         if winner == player1.marker:
+            player1.add_score()
             print(f"{player1.name} won!")
         else:
+            player2.add_score()
             print(f"{player2.name} won!")
     elif board_full:
         print("It's a draw!")
+    print(player1)
+    print(player2)
     play_again = input("\nWould you like to play another round of tic-tac-toe? (Y/N): ")
     if play_again.upper() == "Y":
         play_game(player1, player2)
