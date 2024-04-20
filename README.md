@@ -57,7 +57,7 @@ TODO: TBA
   - Keep total score for each player when playing multiple rounds of the game.
 - Set up a GitHub repository.
 - Set up Git version control.
-- TODO: Write tic-tac-toe game program.
+- Write tic-tac-toe game program.
 - TODO: Refactor program.
 - TODO: Create blog post about project. (This README file is my post about the project I have created.)
 
@@ -73,6 +73,7 @@ Unicode box drawing (line-drawing) characters used to help draw layout for the t
 
 - There are unicode codes for drawing lines that are useful for creating grid drawings.
 - How to return multiple variables.
+- \ enables a line to be split into multiple lines without causing syntax errors (easier readability)
 
 TODO: TBA
 

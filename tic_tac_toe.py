@@ -4,8 +4,7 @@ board_position = {1: [0, 0], 2: [0, 1], 3: [0, 2], 4: [1, 0], 5: [1, 1], 6: [1, 
 
 class Player:
     def __init__(self, player_number):
-        self.name = input(f"Please enter name for player #{player_number}: ")
-        self.name = self.name.title()
+        self.name = input(f"Please enter name for player #{player_number}: ").title()
         if player_number == 1:
             self.marker = self.get_marker()
         self.score = 0
@@ -14,13 +13,13 @@ class Player:
         return f"{self.name} has a total score of {self.score}"
 
     def get_marker(self):
-        self.marker = input("Please enter which marker you want to use (X or O): ")
-        self.marker = self.marker.upper()
-        if self.marker not in ["X", "O"]:
+        self.marker = input("Please enter which marker you want to use (X or O): ").upper()
+        if self.marker in ["X", "O"]:
+            return self.marker
+        else:
             print("Marker Error: Marker should be either X or O")
             return self.get_marker()
-        return self.marker
-    
+        
     def add_score(self):
         self.score += 1
 
@@ -38,41 +37,36 @@ def game_rules():
 def init_player():
     player1 = Player(1)
     player2 = Player(2)
-    if player1.marker == "X":
-        player2.marker = "O"
-    else:
-        player2.marker = "X"
+    player2.marker = "O" if player1.marker == "X" else "X"
     return player1, player2
 
 def init_game():
     won_game = False
     board_full = False
     counter = 1
-    # Game_board is effectively written as [row0, row1, row2]
-    game_board = [[" ", " ", " "], [" ", " ", " "],[" ", " ", " "]]
+    game_board = [[" ", " ", " "], [" ", " ", " "],[" ", " ", " "]] # Game_board is effectively written as [row0, row1, row2]
     return won_game, board_full, counter, game_board
 
 def input_marker(counter, game_board, player1, player2):
-    if counter % 2 != 0:
-        input_message = f"Which empty space would you like to place your {player1.marker}, {player1.name}? "
-    else:
-        input_message = f"Which empty space would you like to place your {player2.marker}, {player2.name}? "
     while True:
         try:
+            if counter % 2 != 0:
+                input_message = f"Which empty space would you like to place your {player1.marker}, {player1.name}? "
+            else:
+                input_message = f"Which empty space would you like to place your {player2.marker}, {player2.name}? "
             player_turn = int(input(input_message))
+
             if player_turn in board_position.keys():
                 x_position = board_position[player_turn][0]
                 y_position = board_position[player_turn][1]
                 if game_board[x_position][y_position] == " ":
-                    if counter % 2 != 0:
-                        game_board[x_position][y_position] = player1.marker
-                    else:
-                        game_board[x_position][y_position] = player2.marker
+                    game_board[x_position][y_position] = player1.marker if counter % 2 != 0 else player2.marker
                     break
                 else:
                     print("Position Error: Position already filled")
             else:
                 print("Position Error: Number needs to be between 1 to 9.")
+
         except ValueError:
             print("Invalid Input Error: Please enter a number between 1 to 9.")
 
@@ -83,31 +77,37 @@ def check_won(game_board):
             return True, game_board[i][0]
         elif game_board[0][i] == game_board[1][i] == game_board[2][i] != " ":
             return True, game_board[0][i]
+        
     # diagonals win
-    if game_board[0][0] == game_board[1][1] == game_board[2][2] != " ":
-        return True, game_board[0][0]
-    elif game_board[0][2] == game_board[1][1] == game_board[2][0]!= " ":
-        return True, game_board[0][2]
+    if game_board[0][0] == game_board[1][1] == game_board[2][2] != " " or \
+        game_board[0][2] == game_board[1][1] == game_board[2][0]!= " ":
+        return True, game_board[1][1]
+    
     # no win
     return False, None
 
 def print_game_board(game_board):
+    line = "\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u253c\u2500\u2500\u2500"
     print(f"\n {game_board[0][0]} \u2502 {game_board[0][1]} \u2502 {game_board[0][2]}")
-    print("\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u253c\u2500\u2500\u2500")
+    print(line)
     print(f" {game_board[1][0]} \u2502 {game_board[1][1]} \u2502 {game_board[1][2]}")
-    print("\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u253c\u2500\u2500\u2500")
+    print(line)
     print(f" {game_board[2][0]} \u2502 {game_board[2][1]} \u2502 {game_board[2][2]}\n")
 
 def play_game(player1, player2):
     won_game, board_full, counter, game_board = init_game()
+
     while not won_game and not board_full:
         input_marker(counter, game_board, player1, player2)
+
         if counter >= 5:
             won_game, winner = check_won(game_board)
         print_game_board(game_board)
         counter += 1
+
         if counter > 9:
             board_full = True
+
     if won_game:
         if winner == player1.marker:
             player1.add_score()
@@ -117,8 +117,10 @@ def play_game(player1, player2):
             print(f"{player2.name} won!")
     elif board_full:
         print("It's a draw!")
+
     print(player1)
     print(player2)
+
     play_again = input("\nWould you like to play another round of tic-tac-toe? (Y/N): ")
     if play_again.upper() == "Y":
         play_game(player1, player2)
