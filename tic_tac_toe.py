@@ -15,7 +15,7 @@ class Player:
     def _set_name(self, player_number):
         self.name = input(f"Please enter name for player #{player_number}: ").title()
         while not self.name.strip(): # checks if name empty or whitespace
-            print("Name Error: Name cannot by empty.")
+            print("Invalid Input Error: Name cannot by empty.")
             self.name = input(f"Please enter name for player #{player_number}: ").title()
 
     def _set_marker(self):
@@ -23,7 +23,7 @@ class Player:
         if self.marker in ["X", "O"]:
             pass
         else:
-            print("Marker Error: Marker should be either X or O")
+            print("Invalid Input Error: Marker should be either X or O")
             self._set_marker()
         
     def add_score(self):
