@@ -4,21 +4,27 @@ board_position = {1: [0, 0], 2: [0, 1], 3: [0, 2], 4: [1, 0], 5: [1, 1], 6: [1, 
 
 class Player:
     def __init__(self, player_number):
-        self.name = input(f"Please enter name for player #{player_number}: ").title()
+        self._set_name(player_number)
         if player_number == 1:
-            self.marker = self.get_marker()
+            self._set_marker()
         self.score = 0
 
     def __repr__(self):
         return f"{self.name} has a total score of {self.score}"
 
-    def get_marker(self):
+    def _set_name(self, player_number):
+        self.name = input(f"Please enter name for player #{player_number}: ").title()
+        while not self.name.strip(): # checks if name empty or whitespace
+            print("Name Error: Name cannot by empty.")
+            self.name = input(f"Please enter name for player #{player_number}: ").title()
+
+    def _set_marker(self):
         self.marker = input("Please enter which marker you want to use (X or O): ").upper()
         if self.marker in ["X", "O"]:
-            return self.marker
+            pass
         else:
             print("Marker Error: Marker should be either X or O")
-            return self.get_marker()
+            self._set_marker()
         
     def add_score(self):
         self.score += 1
