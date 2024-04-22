@@ -35,7 +35,17 @@ For this particular project I decided to create a Tic-Tac-Toe game.
 
 ### Screenshots
 
-TODO: TBA
+#### Game instructions:
+
+![Game instructions for Tic-Tac-Toe Python terminal game](./screenshot1.jpg)
+
+#### Players taking turns:
+
+![Players taking turns in Tic-Tac-Toe Python terminal game](./screenshot2.jpg)
+
+#### Overall scores:
+
+![Overall player scores and play again message in Tic-Tac-Toe Python terminal game](./screenshot3.jpg)
 
 ## Process
 
