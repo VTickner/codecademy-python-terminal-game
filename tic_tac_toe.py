@@ -10,7 +10,7 @@ class Player:
         self.score = 0
 
     def __repr__(self):
-        return f"{self.name} has a total score of {self.score}"
+        return f"{self.name} has a total score of {self.score} wins"
 
     def _set_name(self, player_number):
         self.name = input(f"Please enter name for player #{player_number}: ").title()
@@ -127,7 +127,7 @@ def play_game(player1, player2):
     print(player1)
     print(player2)
 
-    play_again = input("\nWould you like to play another round of tic-tac-toe? (Y/N): ")
+    play_again = input("\nWould you like to play another round of Tic-Tac-Toe? (Y/N): ")
     if play_again.upper() == "Y":
         play_game(player1, player2)
 
